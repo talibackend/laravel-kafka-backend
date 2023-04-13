@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function(){ return "Hello world, route is working properly."; });
+Route::get('/', 'App\Http\Controllers\CartController@addToCart');
