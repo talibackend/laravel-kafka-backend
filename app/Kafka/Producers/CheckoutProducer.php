@@ -5,7 +5,7 @@ class CheckoutProducer
 {
     public static function sendCartItemsProducer($cartItems, $userId)
     {
-        $producer = Kafka::publishOn('cart_item', env('KAFKA_BROKERS'))
+        $producer = Kafka::publishOn('cart_items', env('KAFKA_BROKERS'))
                     ->withBodyKey('cart_items', $cartItems)
                     ->withBodyKey('user_id', $userId);
         $producer->send();
