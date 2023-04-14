@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id').references('id').on('users').onDelete('cascade');
-            $table->foreign('cart_id').references('id').on('carts');
+            $table->integer('user_id');
+            $table->integer('cart_id');
             $table->timestamps();
         });
     }

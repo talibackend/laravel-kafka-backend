@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'App\Http\Controllers\CartController@addToCart');
+Route::get('/', function(){ return "Hello world..."; });
+Route::post('/add-cart-item', 'App\Http\Controllers\CartController@addToCart');
+// Route::post('/add-cart-item', function(){ return "Hello world..."; });
