@@ -9,7 +9,7 @@ class CheckoutProducer
     public static function cartActionProducer($cartItems, $userId, $action)
     {
         $producer = Kafka::publishOn('cart_items', env('KAFKA_BROKERS'))
-                    ->withBodyKey('cart_items', $cartItems)
+                    ->withBodyKey('cart_item', $cartItems)
                     ->withBodyKey('user_id', $userId)
                     ->withBodyKey('action', $action);
         $producer->send();

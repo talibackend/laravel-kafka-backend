@@ -9,6 +9,6 @@ class Product extends Model
 {
     use HasFactory;
     public $timestamps = true;
-    public $name;
-    public $price;
+    // public $name;
+    // public $price;
 }

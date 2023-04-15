@@ -4,20 +4,32 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Contracts\KafkaConsumerMessage;
-use Illuminate\Support\Facades\DB;
+use App\Models\Cart;
+use App\Models\CartItem;
 
 class CartItemActors{
     public static function addToCartHandler($payload){
         $user_id = $payload['user_id'];
-        $cart_items = $payload['cart_items'];
+        $cart_item = $payload['cart_item'];
 
-        $cart = DB::table('carts')->where(['user_id' => $user_id, 'status' => 'pending'])->first();
+        $cart = Cart::where(['user_id' => $user_id, 'status' => 'pending'])->first();
         if(!$cart){
-            $cart = DB::table('carts')->insert([
+            $cart = Cart::create([
                 'user_id' => $user_id,
-                'status' => 'pending',
-                'createdAt' => new \Date(),
-                'updatedAt' => new \Date()
+                'status' => 'pending'
+            ]);
+        }
+        $search_item = CartItem::where(['cart_id' => $cart->id, 'product_id' => $cart_item['product_id']])->first();
+        if($search_item){
+            if($search_item->quantity != $cart_item['quantity']){
+                $search_item->quantity = $cart_item['quantity'];
+                $search_item->save();
+            }
+        }else{
+            CartItem::create([
+                'cart_id' => $cart->id,
+                'product_id' => $cart_item['product_id'],
+                'quantity' => $cart_item['quantity']
             ]);
         }
     }

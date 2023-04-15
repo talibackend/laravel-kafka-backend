@@ -11,6 +11,11 @@ class Cart extends Model
 {
     use HasFactory;
     public $timestamps = true;
+
+    public $fillable = [
+        'user_id',
+        'status'
+    ];
     public $user_id;
     public $status;
 
