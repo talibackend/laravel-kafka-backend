@@ -17,7 +17,7 @@ class CartItemConsumer extends Command{
                     ->withBrokers(env('KAFKA_BROKERS'))
                     ->withHandler(function(KafkaConsumerMessage $message) {
                         $body = $message->getBody();
-                        Log::info(json_encode(($body)));
+                        echo json_encode($body);
                     })->build();
         
         $consumer->consume();

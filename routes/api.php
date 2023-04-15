@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function(){ return "Hello world..."; });
-Route::post('/add-cart-item', 'App\Http\Controllers\CartController@addToCart');
-// Route::post('/add-cart-item', function(){ return "Hello world..."; });
+// Route::post('/add-cart-item', 'App\Http\Controllers\CartController@addToCart');
+Route::post('/add-cart-item', [CartController::class, 'addToCart']);

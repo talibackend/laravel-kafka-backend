@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Kafka\Producers;
+
 use Junges\Kafka\Facades\Kafka;
 
 class CheckoutProducer
@@ -9,6 +12,7 @@ class CheckoutProducer
                     ->withBodyKey('cart_items', $cartItems)
                     ->withBodyKey('user_id', $userId);
         $producer->send();
+        echo 'Message should have reached consumer.--------------';
     }
 }
 
