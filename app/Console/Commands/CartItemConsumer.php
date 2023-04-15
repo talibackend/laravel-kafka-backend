@@ -8,9 +8,22 @@ use App\Models\Cart;
 use App\Models\CartItem;
 
 class CartItemActors{
+    public static function deleteFromCartHandler($payload){
+        $user_id = $payload['user_id'];
+        $product_id = $payload['subject'];
+
+        $cart = Cart::where(['user_id' => $user_id, 'status' => 'pending'])->first();
+
+        if($cart){
+            $search_item = CartItem::where(['cart_id' => $cart->id, 'product_id' => $product_id])->first();
+            if($search_item){
+                $search_item->delete();
+            }
+        }
+    }
     public static function addToCartHandler($payload){
         $user_id = $payload['user_id'];
-        $cart_item = $payload['cart_item'];
+        $cart_item = $payload['subject'];
 
         $cart = Cart::where(['user_id' => $user_id, 'status' => 'pending'])->first();
         if(!$cart){
@@ -52,7 +65,10 @@ class CartItemConsumer extends Command{
                                 unset($body['action']);
                                 CartItemActors::addToCartHandler($body);
                                 break;
-                            
+                            case 'delete':
+                                unset($body['action']);
+                                CartItemActors::deleteFromCartHandler($body);
+                                break;
                             default:
                                 break;
                         }

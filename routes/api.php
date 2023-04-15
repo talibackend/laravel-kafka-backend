@@ -18,3 +18,4 @@ use App\Http\Controllers\CartController;
 Route::get('/', function(){ return "Hello world..."; });
 // Route::post('/add-cart-item', 'App\Http\Controllers\CartController@addToCart');
 Route::post('/add-cart-item', [CartController::class, 'addToCart']);
+Route::post('/delete-cart-item', [CartController::class, 'deleteFromCart']);
