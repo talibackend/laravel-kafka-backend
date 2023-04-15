@@ -10,5 +10,8 @@ use App\Models\Product;
 class CartItem extends Model
 {
     use HasFactory;
-
+    public $timestamps = true;
+    public $cart_id;
+    public $product_id;
+    public $quantity;
 }

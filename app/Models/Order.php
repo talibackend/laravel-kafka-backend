@@ -10,5 +10,7 @@ use App\Models\Cart;
 class Order extends Model
 {
     use HasFactory;
-
+    public $timestamps = true;
+    public $user_id;
+    public $cart_id;
 }

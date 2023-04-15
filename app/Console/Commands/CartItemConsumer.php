@@ -4,11 +4,22 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Junges\Kafka\Facades\Kafka;
 use Junges\Kafka\Contracts\KafkaConsumerMessage;
+use Illuminate\Support\Facades\DB;
 
 class CartItemActors{
     public static function addToCartHandler($payload){
         $user_id = $payload['user_id'];
         $cart_items = $payload['cart_items'];
+
+        $cart = DB::table('carts')->where(['user_id' => $user_id, 'status' => 'pending'])->first();
+        if(!$cart){
+            $cart = DB::table('carts')->insert([
+                'user_id' => $user_id,
+                'status' => 'pending',
+                'createdAt' => new \Date(),
+                'updatedAt' => new \Date()
+            ]);
+        }
     }
 }
 
