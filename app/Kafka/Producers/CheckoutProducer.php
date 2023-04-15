@@ -14,6 +14,12 @@ class CheckoutProducer
                     ->withBodyKey('action', $action);
         $producer->send();
     }
+    public static function checkout($userId)
+    {
+        $producer = Kafka::publishOn('checkout', env('KAFKA_BROKERS'))
+                    ->withBodyKey('user_id', $userId);
+        $producer->send();
+    }
 }
 
 ?>

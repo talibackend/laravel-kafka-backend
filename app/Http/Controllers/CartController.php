@@ -53,4 +53,20 @@ class CartController extends Controller
         CheckoutProducer::cartActionProducer($payload['product_id'], $payload['user_id'], 'delete');
         return response()->json(['ok' => false, 'message' => 'Item removed from cart.'])->setStatusCode(200);
     }
+    public function checkout(Request $request){
+        $payload = $request->validate([
+            'user_id' => 'integer|required'
+        ]);
+
+        //Am trying to do some manual validation here.
+
+        $user_id = $payload['user_id'];
+        $user = User::find($user_id);
+
+        if (!$user) {
+            return response()->json(['ok' => false, 'message' => 'Invalid user id provided.'])->setStatusCode(400);
+        }
+        CheckoutProducer::checkout($payload['user_id']);
+        return response()->json(['ok' => false, 'message' => 'Item removed from cart.'])->setStatusCode(200);
+    }
 }
