@@ -6,11 +6,12 @@ use Junges\Kafka\Facades\Kafka;
 
 class CheckoutProducer
 {
-    public static function sendCartItemsProducer($cartItems, $userId)
+    public static function cartActionProducer($cartItems, $userId, $action)
     {
         $producer = Kafka::publishOn('cart_items', env('KAFKA_BROKERS'))
                     ->withBodyKey('cart_items', $cartItems)
-                    ->withBodyKey('user_id', $userId);
+                    ->withBodyKey('user_id', $userId)
+                    ->withBodyKey('action', $action);
         $producer->send();
         echo 'Message should have reached consumer.--------------';
     }

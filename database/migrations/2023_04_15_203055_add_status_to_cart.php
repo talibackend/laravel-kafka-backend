@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cart', function (Blueprint $table) {
-            //
+        Schema::table('carts', function (Blueprint $table) {
+            $table->enum('status', ['pending', 'completed']);
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cart', function (Blueprint $table) {
-            //
+            $table->dropColumn('status');
         });
     }
 };

@@ -14,7 +14,7 @@ class CartController extends Controller
             'cart_items.*.quantity' => 'integer|required'
         ]);
 
-        CheckoutProducer::sendCartItemsProducer($payload['cart_items'], $payload['user_id']);
+        CheckoutProducer::cartActionProducer($payload['cart_items'], $payload['user_id'], 'add');
         return "Hello world....Message should have gotten to consumer and producer.";
     }
 }
