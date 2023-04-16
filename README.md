@@ -6,7 +6,7 @@ According to requirements the projects contains some few endpoints for managing 
 3. A checkout endpoint was created to help user checkout.
 
 # How to run
-
+### I wrote this block because I don't have access to any cloud platform so I was not able to deploy it myself. I hope the reviewer will help by trying to run it locally.
 1. Download the project by cloning this repository
 2. Setup your `mysql` database.
 3. Setup your `kafka broker`(it's easier to use docker)
