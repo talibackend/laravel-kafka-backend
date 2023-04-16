@@ -82,5 +82,6 @@ class CartItemConsumer extends Command{
                     })->build();
         
         $consumer->consume();
+        return true;
     }
 }
