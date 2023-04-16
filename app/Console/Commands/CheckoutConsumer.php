@@ -10,6 +10,33 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 
+class CheckoutActors
+{
+    public static function checkoutHandler($user_id)
+    {
+        $cart = Cart::where(['user_id' => $user_id, 'status' => 'pending'])->first();
+        if ($cart) {
+            $cart_items = CartItem::where(['cart_id' => $cart->id])->get();
+            $total = 0;
+            for ($i = 0; $i < count($cart_items); $i++) {
+                $product = Product::find($cart_items[$i]->product_id);
+                if (!$product) {
+                    return;
+                } else {
+                    $total += $product->price * $cart_items[$i]->quantity;
+                }
+            }
+            Order::create([
+                'user_id' => $user_id,
+                'cart_id' => $cart->id,
+                'total' => $total
+            ]);
+            $cart->status = 'completed';
+            $cart->save();
+        }
+    }
+}
+
 class CheckoutConsumer extends Command
 {
     protected $signature = "consumer:checkout";
@@ -19,37 +46,18 @@ class CheckoutConsumer extends Command
     public function handle()
     {
         $consumer = Kafka::createConsumer()
-                    ->subscribe('checkout')
-                    ->withBrokers(env('KAFKA_BROKERS'))
-                    ->withHandler(function(KafkaConsumerMessage $message) {
-                        $body = $message->getBody();
-                        $user_id = $body['user_id'];
-                        $cart = Cart::where(['user_id' => $user_id, 'status' => 'pending'])->first();
-                        if($cart){
-                            $cart_items = CartItem::where(['cart_id' => $cart->id])->get();
-                            $total = 0;
-                            for ($i=0; $i < count($cart_items); $i++) {
-                                $product = Product::find($cart_items[$i]->product_id);
-                                if(!$product){
-                                    return;
-                                }else{
-                                    $total += $product->price * $cart_items[$i]->quantity;
-                                }
-                            }
-                            Order::create([
-                                'user_id' => $user_id,
-                                'cart_id' => $cart->id,
-                                'total' => $total
-                            ]);
-                            $cart->status = 'completed';
-                            $cart->save();
-                        }
-                        echo json_encode($body);
-                        echo "\n";
-                        echo '-----------------';
-                        echo "\n";
-                    })->build();
-        
+            ->subscribe('checkout')
+            ->withBrokers(env('KAFKA_BROKERS'))
+            ->withHandler(function (KafkaConsumerMessage $message) {
+                $body = $message->getBody();
+                $user_id = $body['user_id'];
+                CheckoutActors::checkoutHandler($user_id);
+                echo json_encode($body);
+                echo "\n";
+                echo '-----------------';
+                echo "\n";
+            })->build();
+
         $consumer->consume();
     }
 }
