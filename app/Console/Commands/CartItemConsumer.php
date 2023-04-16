@@ -33,8 +33,11 @@ class CartItemActors{
             ]);
         }
         $search_item = CartItem::where(['cart_id' => $cart->id, 'product_id' => $cart_item['product_id']])->first();
+        // print_r($search_item);
         if($search_item){
             if($search_item->quantity != $cart_item['quantity']){
+                echo $cart_item['quantity'];
+                echo $search_item->quantity;
                 $search_item->quantity = $cart_item['quantity'];
                 $search_item->save();
             }

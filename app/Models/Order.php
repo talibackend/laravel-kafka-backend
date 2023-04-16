@@ -9,14 +9,10 @@ use App\Models\Cart;
 
 class Order extends Model
 {
-    use HasFactory;
     public $timestamps = true;
-    public $fillable = [
+    protected $fillable = [
         'user_id',
         'cart_id',
         'total'
     ];
-    public $user_id;
-    public $cart_id;
-    public $total;
 }

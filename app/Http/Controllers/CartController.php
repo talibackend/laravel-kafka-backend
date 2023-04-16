@@ -67,6 +67,6 @@ class CartController extends Controller
             return response()->json(['ok' => false, 'message' => 'Invalid user id provided.'])->setStatusCode(400);
         }
         CheckoutProducer::checkout($payload['user_id']);
-        return response()->json(['ok' => false, 'message' => 'Item removed from cart.'])->setStatusCode(200);
+        return response()->json(['ok' => false, 'message' => 'Checkout successful.'])->setStatusCode(200);
     }
 }

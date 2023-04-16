@@ -7,14 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class CartItem extends Model
 {
-    use HasFactory;
     public $timestamps = true;
-    public $fillable = [
+    protected $fillable = [
         'cart_id',
         'product_id',
         'quantity'
     ];
-    public $cart_id;
-    public $product_id;
-    public $quantity;
 }

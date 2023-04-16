@@ -26,21 +26,23 @@ class CheckoutConsumer extends Command
                         $user_id = $body['user_id'];
                         $cart = Cart::where(['user_id' => $user_id, 'status' => 'pending'])->first();
                         if($cart){
-                            $cart_items = CartItem::where(['cart_id' => $cart->id])->all();
+                            $cart_items = CartItem::where(['cart_id' => $cart->id])->get();
                             $total = 0;
-                            for ($i=0; $i < count($cart_items); $i++) { 
-                                $product = Product::find($cart_items[$i]->product_id)->first();
+                            for ($i=0; $i < count($cart_items); $i++) {
+                                $product = Product::find($cart_items[$i]->product_id);
                                 if(!$product){
                                     return;
                                 }else{
-                                    $total += $product->price;
+                                    $total += $product->price * $cart_items[$i]->quantity;
                                 }
                             }
                             Order::create([
                                 'user_id' => $user_id,
-                                'cart_id' => $cart->cart_id,
+                                'cart_id' => $cart->id,
                                 'total' => $total
                             ]);
+                            $cart->status = 'completed';
+                            $cart->save();
                         }
                         echo json_encode($body);
                         echo "\n";
