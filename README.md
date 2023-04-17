@@ -16,19 +16,24 @@ According to requirements the projects contains some few endpoints for managing 
 ```
 php artisan migrate
 ```
-7. Then run
+7. Then run 
+```
+php artisan db:seed
+```
+This will create some dummy users and products, you can chat your database to confirm. 
+8. Then run
 ```
 php artisan serve
 ```
-8.  Open another terminal and run 
+9.  Open another terminal and run 
 ```
 php artisan consume:cart_items
 ```
-9. Open another terminal and run
+10. Open another terminal and run
 ```
 php artisan consume:checkout
 ```
-10. You can not test the endpoints in the postman doc.
+11. You can not test the endpoints in the postman doc.
 
 # Run Test
 The run the automated tests, follow the steps below:
