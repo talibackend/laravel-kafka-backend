@@ -21,6 +21,7 @@ php artisan migrate
 php artisan db:seed
 ```
 This will create some dummy users and products, you can chat your database to confirm. 
+
 8. Then run
 ```
 php artisan serve
